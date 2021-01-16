@@ -35,8 +35,6 @@
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{url('/reminders')}}" aria-expanded="false"><i class="mdi mdi-fast-forward"></i><span class="hide-menu">Reminders</span></a></li>
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{url('/reports')}}" aria-expanded="false"><i class="mdi mdi-sync"></i><span class="hide-menu">Reports</span></a></li>
                 
-                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link {{ Request::is('/getdata') ? 'active' : '' }}" href="{{url('/getdata')}}" aria-expanded="false"><i class="mdi mdi-relative-scale"></i><span class="hide-menu">Get Online Requests</span></a></li>
-                {{--<li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link {{ Request::is('/onlineapps') ? 'active' : '' }}" href="{{url('/onlineapps')}}" aria-expanded="false"><i class="mdi mdi-relative-scale"></i><span class="hide-menu">Online Appointments</span></a></li>--}}
                 @if(Auth::user()->role_id == 1)
                     <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark {{ Request::is('/users') ? 'active' : '' }}" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-account-key"></i><span class="hide-menu">Users </span></a>
                         <ul aria-expanded="false" class="collapse  first-level">

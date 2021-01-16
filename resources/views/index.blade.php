@@ -31,16 +31,16 @@
             <div class="card card-hover">
                 <div class="box bg-cyan text-center send-reminders">
                     <h1 class="font-weight-bold text-white"><i class="mdi mdi-send"></i></h1>
-                    <h6 class="text-white">Send Reminders</h6>
+                    <h6 class="text-white">Send All Reminders</h6>
                 </div>
             </div>
         </div>
         <!-- Column -->
         <div class="col-md-6 col-lg-3">
             <div class="card card-hover">
-                <div class="box bg-success text-center online">
+                <div class="box bg-success text-center reminders">
                     <h1 class="font-light text-white"><i class="mdi mdi-access-point"></i></h1>
-                    <h6 class="text-white">Get Online Data</h6>
+                    <h6 class="text-white">Reminders</h6>
                 </div>
             </div>
         </div>
@@ -76,10 +76,10 @@
         </div>
         <!-- Column -->
         <div class="col-md-6 col-lg-3">
-            <div class="card card-hover reminders">
+            <div class="card card-hover billing">
                 <div class="box bg-cyan text-center">
                     <h1 class="font-light text-white"><i class="mdi mdi-new-box"></i></h1>
-                    <h6 class="text-white">Reminders</h6>
+                    <h6 class="text-white">New Invoice</h6>
                 </div>
             </div>
         </div>
@@ -204,8 +204,8 @@
         $(document).on('click','.vaccines', function () {
             window.location.href = "/vaccines";
         });
-        $(document).on('click','.online', function () {
-            window.location.href = "/getdata";
+        $(document).on('click','.billing', function () {
+            window.location.href = "/bills/create";
         });
         $(document).on('click','.send-reminders', function () {
             let count=0;
