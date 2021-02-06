@@ -34,7 +34,7 @@ class AppointmentController extends Controller
     public function create()
     {
         //
-        $patients = Patient::lists('id','id');
+        $patients = Patient::orderBy('id')->lists('id','id');
         $doctors = User::where('role_id',2)->lists('name','id')->all();
         /*$doctors=[];
         foreach($docs as $doc){

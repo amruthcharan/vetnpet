@@ -30,7 +30,7 @@
 
     <div class="row">
         <!-- column -->
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12">
             <!-- Card -->
             <div class="card">
                 <div class="card-body">
@@ -142,7 +142,7 @@
 
                                 @foreach($patient->vaccinations as $v)
                                     <tbody>
-                                    <tr style="{{$v->expiry < \Carbon\Carbon::today() ?  "color:red;font-weight: bold;" : "color:green; font-weight: bold;"}}">
+                                    <tr class="{{$v->expiry < \Carbon\Carbon::today() ?  'table-danger' : 'table-success'}}">
                                         <td class="text-left">{{$v->id}}</td>
                                         <td>{{$v->vaccine->name}}</td>
                                         <td class="text-left">{{$v->date->format('d-m-Y')}}</td>
@@ -162,7 +162,7 @@
             @endif
         </div>
         <!-- column -->
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12">
             <!-- Card -->
             <div class="card">
                 <div class="card-body">

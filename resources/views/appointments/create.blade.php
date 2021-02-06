@@ -27,7 +27,7 @@
 @endsection
 @section('content')
     <div class="row" style="margin: 0 auto">
-        <div class="col-md-6 appdet" style="margin: 0 auto">
+        <div class="col-lg-6 col-md-12 appdet" style="margin: 0 auto">
             <div class="card sticky-top">
                 <div class="card-body">
                     <table class="table table-hover">
@@ -72,7 +72,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6"  style="margin: 0 auto">
+        <div class="col-lg-6 col-md-12"  style="margin: 0 auto">
             <div class="card">
                 <div class="card-body">
                     <div class="float-right"><a class="btn btn-danger" href="{{route('patients.create')}}">Create New Patient</a></div>

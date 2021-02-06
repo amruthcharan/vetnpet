@@ -27,7 +27,7 @@
 @endsection
 @section('content')
     <div class="row" style="margin: 0 auto">
-        <div class="col-md-4 appdet" style="margin: 0 auto">
+        <div class="col-lg-4 col-md-12 appdet" style="margin: 0 auto">
             <div class="card sticky-top">
                 <div class="card-body">
                     <table class="table table-hover">
@@ -67,7 +67,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-8"  style="margin: 0 auto">
+        <div class="col-lg-8 col-md-12"  style="margin: 0 auto">
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title" style="text-align: center">New Invoice</h4>

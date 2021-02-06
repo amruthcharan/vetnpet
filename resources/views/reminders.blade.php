@@ -31,7 +31,7 @@
                                     <td>{{$rem->patient->id}}</td>
                                     <td>{{$rem->patient->name ? $rem->patient->name : ''}}</td>
                                     <td>{{$rem->patient->ownername ? $rem->patient->ownername : ''}}</td>
-                                    <td>{{$rem->patient->mobile ? $rem->patient->mobile : ''}}</td>
+                                    <td><a href="tel:{{$rem->patient->mobile ? $rem->patient->mobile : ''}}">{{$rem->patient->mobile ? $rem->patient->mobile : ''}}</a></td>
                                     <td><a href="mailto:{{$rem->patient->email ? $rem->patient->email : ''}}">{{$rem->patient->email ? $rem->patient->email : ''}}</a></td>
                                     <td>{{date('d-m-Y', strtotime($rem->date))}}</td>
                                     <td><button class="btn btn-danger sendsms">Send SMS</button></td>

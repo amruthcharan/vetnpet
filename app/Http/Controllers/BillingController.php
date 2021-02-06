@@ -36,7 +36,7 @@ class BillingController extends Controller
     public function create()
     {
         //
-        $patients = Patient::lists('id','id');
+        $patients = Patient::orderBy('id')->lists('id','id');
         $packages = Package::all();
         return view('bills.create',compact(['patients', 'packages']));
     }

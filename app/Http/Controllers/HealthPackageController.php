@@ -31,7 +31,7 @@ class HealthPackageController extends Controller
     public function create()
     {
         $packages = Package::lists('name', 'id');
-        $patients = Patient::lists('id','id');
+        $patients = Patient::orderBy('id')->lists('id','id');
         return view('healthpackages.create', compact(['packages', 'patients']));
     }
 
