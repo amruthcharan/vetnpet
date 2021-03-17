@@ -6,7 +6,7 @@
     "type": "project",
     "require": {
         "php": ">=5.5.9",
-        "kylekatarnls/update-helper": "1.2.1"
+        "kylekatarnls/update-helper": "1.2.1",
         "laravel/framework": "5.2.*",
         "laravelcollective/html": "5.2"
     },
