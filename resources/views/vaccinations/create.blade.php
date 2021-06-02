@@ -153,7 +153,3 @@
     });
 </script>
 @endsection
-
-</script>
-
-@endsection
