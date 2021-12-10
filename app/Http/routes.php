@@ -72,7 +72,7 @@ Route::post('/createnewapp', function(Request $request) {
     $id = $app->id;
 
     $date = date_format($d, 'd/m/Y');
-    $message="Dear Customer, Appointment has been successfully booked for your pet, $name on $date. with $doc. Your Appointment id is $id. VetPet";
+    $message = "Dear Customer, Appointment has been successfully booked for your pet, $name on $date. with $doc. Your Appointment id is $id. VetPet";
     event(new SendSms($message, $mobile, "1507163912258936396"));
 
 
