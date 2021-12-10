@@ -56,9 +56,9 @@
                                     @if($appointment->patient)
                                     <tr>
                                         <td>{{$appointment->id}}</td>
-                                        <td>{{$appointment->patient->name ? $appointment->patient->name : ''}}</td>
-                                        <td>{{$appointment->patient->ownername ? $appointment->patient->ownername : ""}}</td>
-                                        <td>{{$appointment->doctor->name}}</td>
+                                        <td>{{$appointment->patient->name ?? ''}}</td>
+                                        <td>{{$appointment->patient->ownername ?? ""}}</td>
+                                        <td>{{$appointment->doctor->name ?? ''}}</td>
                                         <td>{{date('d-m-Y', strtotime($appointment->date))}}</td>
                                         <td>{{$appointment->status}}</td>
                                         <td>

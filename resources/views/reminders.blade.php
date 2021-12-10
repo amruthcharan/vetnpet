@@ -34,7 +34,7 @@
                                     <td><a href="tel:{{$rem->patient->mobile ? $rem->patient->mobile : ''}}">{{$rem->patient->mobile ? $rem->patient->mobile : ''}}</a></td>
                                     <td><a href="mailto:{{$rem->patient->email ? $rem->patient->email : ''}}">{{$rem->patient->email ? $rem->patient->email : ''}}</a></td>
                                     <td>{{date('d-m-Y', strtotime($rem->date))}}</td>
-                                    <td><button class="btn btn-danger sendsms">Send SMS</button></td>
+                                    <td><button class="btn btn-danger" onclick="sendsms('{{$rem->id}}')">Send SMS</button></td>
                                 </tr>
                             @endif
                         @endforeach
@@ -49,15 +49,14 @@
     <script>
         $('#zero_config').DataTable({"order": [5,'asc']});
 
-        $('table').delegate('.sendsms','click', function(){
-            var aid = $(this).closest('tr').find('td').eq(0).html();
+        function sendsms(appid) {
             $(document).ajaxStart(function(){
                 $(".preloader").show();
             }).ajaxStop(function(){
                 $(".preloader").fadeOut();
             });
             $.ajax({
-                url : "/sendsms/"+aid,
+                url : "/sendsms/"+appid,
                 success:function(d){
                     toastr.success("SMS sent!");
                 },
@@ -65,6 +64,6 @@
                     console.log(JSON.stringify(e));
                 }
             });
-        });
+        }
     </script>
 @endsection
