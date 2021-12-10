@@ -3,13 +3,11 @@
 namespace App\Listeners;
 
 use App\Events\SendSms;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class SendSmsListener
 {
     const USERNAME = "vetnpet";
-    const PASSWORD = "gETSRI@71";
+    const PASSWORD = "9502505";
     const SENDER = "VetPet";
     
     /**
@@ -20,7 +18,7 @@ class SendSmsListener
      */
     public function handle(SendSms $event)
     {
-        $url = "login.bulksmsgateway.in/sendmessage.php?user=" . urlencode(self::USERNAME) . "&password=" . urlencode(self::PASSWORD) . "&mobile=" . urlencode($event->mobile) . "&message=" . urlencode($event->message) . "&sender=" . urlencode(self::SENDER) . "&type=" . urlencode('3');
+        $url = "login.bulksmsgateway.in/sendmessage.php?user=" . urlencode(self::USERNAME) . "&password=" . urlencode(self::PASSWORD) . "&mobile=" . urlencode($event->mobile) . "&message=" . urlencode($event->message) . "&sender=" . urlencode(self::SENDER) . "&type=" . urlencode('3') . "&template_id=" . urlencode($event->template_id);
 
         $ch = curl_init($url);
 

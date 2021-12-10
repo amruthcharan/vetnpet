@@ -1,21 +1,5 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
-*/
-Route::get('/clear', function () {
-    Artisan::call('cache:clear');
-    Artisan::call('config:cache');
-    return 'hello';
-});
-
 use App\Appointment;
 use App\Bill;
 use App\HealthPackage;
@@ -47,16 +31,19 @@ Route::post('/createapp', function (AppointmentRequest $request) {
     $input = $request->all();
     $input['created_by'] = 'Created by API';
     $app = Appointment::create($input);
-    //send sms 
     $d = date_create($app->date);
 
     $date = date_format($d, 'd/m/Y');
     $patient = $app->patient;
     $name = $patient->name ?? '';
-    $message = "Dear Customer, Appointment has been successfully booked for your pet, " . $name . " on " . $date . ". Your Appointment id is " . $app->id . ". @ VetnPet Hospital Film Nagar";
+    $doc = $app->doctor->name ?? "Dr. Karnati";
+    $id = $app->id;
+    $message="Dear Customer, Appointment has been successfully booked for your pet, $name on $date. with $doc. Your Appointment id is $id. VetPet";
+
     $mobile = $patient->mobile;
 
-    event(new SendSms($message, $mobile));
+    event(new SendSms($message, $mobile, "1507163912258936396"));
+
 
     return Response::json($app);
 });
@@ -81,10 +68,13 @@ Route::post('/createnewapp', function(Request $request) {
         'created_by' => "Created by API"
     ]);
     $d = date_create($app->date);
+    $doc = $app->doctor->name ?? "Dr. Karnati";
+    $id = $app->id;
 
     $date = date_format($d, 'd/m/Y');
-    $message = "Dear Customer, Appointment has been successfully booked for your pet, " . $name . " on " . $date . ". Your Appointment id is " . $app->id . ". @ VetnPet Hospital Film Nagar";
-    event(new SendSms($message, $mobile));
+    $message="Dear Customer, Appointment has been successfully booked for your pet, $name on $date. with $doc. Your Appointment id is $id. VetPet";
+    event(new SendSms($message, $mobile, "1507163912258936396"));
+
 
     return Response::json($app);
 });
@@ -415,25 +405,11 @@ Route::group(['middleware'=>['auth','authadv']], function (){
 
         Route::get('/sendsms/{id}', function ($id) {
             $app = Appointment::findOrFail($id);
-            //sms code
-            $username = "vetnpet";
-            $password = "gETSRI@71";
-            $d = date_create($app->date);
-            $date = date_format($d, 'd/m/Y');
-            $name = $app->patient->name ? $app->patient->name : '';
-            $message = "Dear Pet Parent, it's a friendly reminder that your PET is falling due for VET check up today for scheduled regimen at Vet N Pet.  For further info 8885000588.";
-            $sender = "VetPet";
+            $message = "Dear Pet Parent, it's a friendly reminder that your PET is falling due for VET check up today for scheduled regimen at Vet N Pet. For further info 8885000588.";
             $mobile_number = $app->patient->mobile;
-            $url = "login.bulksmsgateway.in/sendmessage.php?user=" . urlencode($username) . "&password=" . urlencode($password) . "&mobile=" . urlencode($mobile_number) . "&message=" . urlencode($message) . "&sender=" . urlencode($sender) . "&type=" . urlencode('3');
-            $ch = curl_init($url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            $output = curl_exec($ch);
-            curl_close($ch);
-            // sms code
-            $res = array(
-                'status' => 'success'
-            );
-            return Response::json($output);
+            event(new SendSms($message, $mobile_number, "1507163912229014687"));
+
+            return response()->json(['success' => true, 'message' => "SMS Sent!"], 200);
         });
 
         Route::get('/sendreminders', function () {
@@ -442,25 +418,11 @@ Route::group(['middleware'=>['auth','authadv']], function (){
             $apps = Appointment::where('date', $t)->get()->all();
             $res = [];
             foreach ($apps as $app) {
-                //sms code
-                $username = "vetnpet";
-                $password = "gETSRI@71";
-                $d = date_create($app->date);
-                $date = date_format($d, 'd/m/Y');
-                $name = $app->patient->name ? $app->patient->name : '';
-                //$message = "Dear Customer, Reminder about the appointment for your pet, " . $name . ' on' . $date . ". Your Appointment id is " . $app->id . ". @ VetnPet Hospital Film Nagar";
-                $message = "Dear Pet Parent, it's a friendly reminder that your PET is falling due for VET check up today for scheduled regimen at Vet N Pet.  For further info 8885000588.";
-                $sender = "VetPet"; //ex:INVITE
+                $message = "Dear Pet Parent, it's a friendly reminder that your PET is falling due for VET check up today for scheduled regimen at Vet N Pet. For further info 8885000588.";
                 $mobile_number = $app->patient->mobile;
-                $url = "login.bulksmsgateway.in/sendmessage.php?user=" . urlencode($username) . "&password=" . urlencode($password) . "&mobile=" . urlencode($mobile_number) . "&message=" . urlencode($message) . "&sender=" . urlencode($sender) . "&type=" . urlencode('3');
-                $ch = curl_init($url);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                $output = curl_exec($ch);
-                curl_close($ch);
-                $r = array($output);
-                array_push($res, $r);
+                event(new SendSms($message, $mobile_number, "1507163912229014687"));
+                array_push($res, $app->id);
             }
-
             return Response::json($res);
         });
 

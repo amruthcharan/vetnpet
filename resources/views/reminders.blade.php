@@ -59,10 +59,7 @@
             $.ajax({
                 url : "/sendsms/"+aid,
                 success:function(d){
-                    var obj = JSON.parse(d);
-                    toastr.success("SMS sent! Remaining balance is: " + obj.remainingcredits);
-                    console.log(obj);
-
+                    toastr.success("SMS sent!");
                 },
                 error:function (e) {
                     console.log(JSON.stringify(e));

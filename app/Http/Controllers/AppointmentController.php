@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Appointment;
+use App\Events\SendSms;
 use App\Http\Requests\AppointmentRequest;
 use App\Patient;
 use App\User;
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
 
 class AppointmentController extends Controller
@@ -55,7 +53,6 @@ class AppointmentController extends Controller
      */
     public function store(AppointmentRequest $request)
     {
-        //
         $input = $request->all();
         $input['created_by'] = Auth::user()->name;
         $app=Appointment::create($input);
@@ -65,31 +62,16 @@ class AppointmentController extends Controller
             'head' => 'Success'
         );
 
-        $username = "vetnpet";
-        $password = "gETSRI@71";
-
         $d = date_create($app->date);
 
         $date = date_format($d,'d/m/Y');
         $name = $app->patient->name ? $app->patient->name : '';
-        $message="Dear Customer, Appointment has been successfully booked for your pet, " . $name . " on " . $date . ". Your Appointment id is " . $app->id . ". @ VetnPet Hospital Film Nagar";
-
-        $sender="VetPet"; //ex:INVITE
-
+        $doc = $app->doctor->name ?? "Dr. Karnati";
+        $id = $app->id;
+        $message="Dear Customer, Appointment has been successfully booked for your pet, $name on $date. with $doc. Your Appointment id is $id. VetPet";
         $mobile_number=$app->patient->mobile;
 
-
-        $url = "login.bulksmsgateway.in/sendmessage.php?user=".urlencode($username)."&password=".urlencode($password)."&mobile=".urlencode($mobile_number)."&message=".urlencode($message)."&sender=".urlencode($sender)."&type=".urlencode('3');
-
-        $ch = curl_init($url);
-
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        $output = curl_exec($ch);
-
-        curl_close($ch);
-
-
+        event(new SendSms($message, $mobile_number, "1507163912258936396"));
 
         //redirecting back to users
         return redirect('/appointments')->with($notification);

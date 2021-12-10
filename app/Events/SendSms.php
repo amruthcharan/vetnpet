@@ -3,7 +3,6 @@
 namespace App\Events;
 
 use App\Events\Event;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class SendSms extends Event
 {
@@ -12,10 +11,11 @@ class SendSms extends Event
      *
      * @return void
      */
-    public function __construct(String $message, String $mobile)
+    public function __construct(String $message, String $mobile, String $template_id)
     {
         $this->message = $message;
         $this->mobile = $mobile;
+        $this->template_id = $template_id;
     }
 
     /**
