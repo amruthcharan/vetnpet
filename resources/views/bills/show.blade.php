@@ -48,7 +48,9 @@
                             <p class=""><b>Invoice Date :</b> <i class="fa fa-calendar"></i> {{$bill->created_at}}</p>
                             <address>
                                 <h4>Invoice is For,</h4>
-                                <p class="m-l-30"><b>Name</b> - {{$bill->patient->name}}
+                                <p class="m-l-30">
+                                    <b>Patient ID</b> - {{$bill->patient->id}}
+                                    <br/> <b>Name</b> - {{$bill->patient->name}}
                                     <br/> {{$bill->patient->address}},
                                     <br/> <b>Breed</b> - {{$bill->patient->breed}},
                                     <br/> <b>Invoice Prepared by {{$bill->created_by}}</b>

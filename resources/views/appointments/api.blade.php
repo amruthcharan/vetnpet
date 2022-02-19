@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>API TESTING</title>
+	<title>API</title>
 	<link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet" />
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet" type="text/css" /><script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script><script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script><script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
 </head>
@@ -37,16 +37,12 @@
     <div id="showpatid">
         <div class="form-group">
             <label for="patid">Patient ID:</label> 
-            <input type="text" class="form-control" id="patid" name="patid">
+            <input type="text" class="form-control" id="patid" name="patid" required>
         </div>
         </span>
         <div class="form-group">
             <label for="date">Appointment Date:</label> 
             <input type="text" class="form-control" id="date" name="date" required>
-        </div>
-        <div id="dayform" class="form-group">
-            <label for="time">Select Time</label>
-            <select class="form-control" id="time" name="time"></select>
         </div>
         <a class="btn btn-warning btn-block my-3" href="#" onclick="bookapp()">
             Book Appointment
@@ -76,10 +72,6 @@
         <div class="form-group">
             <label for="date">Appointment Date:</label> 
             <input type="text" class="form-control" id="date2" name="date" required>
-        </div>
-        <div id="dayform2" class="form-group">
-            <label for="time">Select Time</label>
-            <select class="form-control" id="time2" name="time"></select>
         </div>
         <a class="btn btn-warning btn-block my-3" href="#" onclick="booknewapp()">
             Book Appointment
@@ -137,9 +129,11 @@
                 </table>
                 <hr>
                 <a class="btn btn-primary btn-block" href="#" onclick="show('#showpatid')">Continue to Appointment</a>
-                <center><a href="#" onclick="show('#show-buttons')">
-                    go back
-                </a></center>
+                <center>
+                    <a href="#" onclick="show('#show-buttons')">
+                        go back
+                    </a>
+                </center>
             </div>
         </div>
     </div>
@@ -183,8 +177,8 @@
     function bookapp() {
         var token = '{{csrf_token()}}';
         var url = '/createapp' ;
-        let d = new Date($('#date').val());
-        let formattedDate = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + " 00:00:00"; 
+        let d = $('#date').val().split("-");
+        let formattedDate = d[2] + '-' + d[1] + '-' + d[0] + " 00:00:00"; 
         $.ajax({
             method: 'POST',
             url: url,
@@ -198,7 +192,8 @@
     function booknewapp() {
         var token = '{{csrf_token()}}';
         var url = '/createnewapp' ;
-        let d = new Date($('#date2').val());
+        let d = $('#date2').val().split("-");
+        let formattedDate = d[2] + '-' + d[1] + '-' + d[0] + " 00:00:00"; 
         let patname = $('#name').val();
         let ownname = $('#ownername').val();
         let mobile = $('#mobile2').val();
@@ -207,8 +202,9 @@
         if (d < today || !patname || !ownname || !mobile || !email) {
             $('#newapperror').show();
             return;
+        } else {
+            $('#newapperror').hide();
         }
-        let formattedDate = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + " 00:00:00"; 
         $.ajax({
             method: 'POST',
             url: url,
@@ -251,53 +247,13 @@
 		$('#date').datepicker({
 			minDate: today,
         });
+        $( "#date" ).datepicker( "option", "dateFormat", "dd-mm-yy" );
+
         $('#date2').datepicker({
 			minDate: today,
 		});
-	});
-	
-	$('#date').change(function(){
-	    var bla = $('#date').val();
-	    var date = new Date(bla).getDay();
-	    $('#dayform').show();
-	    if(date==0){
-	        $('#time').find('option').remove();
-	        var x = document.getElementById("time");
-            var option = document.createElement("option");
-            option.text = "10AM to 1PM";
-            x.add(option);
-	    } else {
-	        $('#time').find('option').remove();
-	        var x = document.getElementById("time");
-            var option = document.createElement("option");
-            option.text = "10AM to 2PM";
-            x.add(option);
-            var option = document.createElement("option");
-            option.text = "4PM to 8PM";
-            x.add(option);
-	    }
-    });
-    
-    $('#date2').change(function(){
-	    var bla = $('#date2').val();
-	    var date = new Date(bla).getDay();
-	    $('#dayform2').show();
-	    if(date==0){
-	        $('#time2').find('option').remove();
-	        var x = document.getElementById("time2");
-            var option = document.createElement("option");
-            option.text = "10AM to 1PM";
-            x.add(option);
-	    } else {
-	        $('#time2').find('option').remove();
-	        var x = document.getElementById("time2");
-            var option = document.createElement("option");
-            option.text = "10AM to 2PM";
-            x.add(option);
-            var option = document.createElement("option");
-            option.text = "4PM to 8PM";
-            x.add(option);
-	    }
+        $( "#date2" ).datepicker( "option", "dateFormat", "dd-mm-yy" );
+
 	});
 </script></body>
 </html>

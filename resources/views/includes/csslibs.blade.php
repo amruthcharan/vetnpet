@@ -17,4 +17,7 @@
     #grids>.col-md-6 {
         cursor: pointer;
     }
+    .form-control {
+        border: 1px solid #333 !important;
+    }
 </style>

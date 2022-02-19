@@ -42,6 +42,7 @@
                             <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>Patient ID</th>
                                 <th>Patient Name</th>
                                 <th>Owner Name</th>
                                 <th>Doctor Name</th>
@@ -56,6 +57,7 @@
                                     @if($appointment->patient)
                                     <tr>
                                         <td>{{$appointment->id}}</td>
+                                        <td>{{$appointment->patient->id}}</td>
                                         <td>{{$appointment->patient->name ?? ''}}</td>
                                         <td>{{$appointment->patient->ownername ?? ""}}</td>
                                         <td>{{$appointment->doctor->name ?? ''}}</td>

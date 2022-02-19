@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title')
-    <title>Vet N Pet - {{$patient->name}}</title>
+    <title>Vet N Pet - {{$patient->name ?? ""}}</title>
 @endsection
 
 @section('breadcrum')
@@ -10,7 +10,7 @@
     <div class="page-breadcrumb">
         <div class="row">
             <div class="col-12 d-flex no-block align-items-center">
-                <h4 class="page-title">{{$patient->name}}</h4>
+                <h4 class="page-title">{{$patient->name ?? ""}}</h4>
                 <div class="ml-auto text-right">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
@@ -176,7 +176,7 @@
                             <tr>
                                 <td class="text-left">Name</td>
                                 <td>:</td>
-                                <td class="text-left">{{$patient->name}}</td>
+                                <td class="text-left">{{$patient->name ?? ""}}</td>
                             </tr>
                             <tr>
                                 <td class="text-left">Species</td>
